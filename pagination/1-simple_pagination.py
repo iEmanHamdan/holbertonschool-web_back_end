@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Module for Server class to paginate a database of popular baby names.
+Module for Server class and pagination helper function.
 """
 import csv
 import math
@@ -38,7 +38,7 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
-        Returns the appropriate page of the dataset based on page and page_size.
+        Returns a paginated slice of the dataset based on page and page_size.
         """
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
