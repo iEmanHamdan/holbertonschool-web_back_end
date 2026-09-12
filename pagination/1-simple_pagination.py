@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 """
-Simple pagination module.
+Module for Server class and pagination helper function.
 """
 import csv
+import math
 from typing import List
 
 
-index_range = __import__('0-simple_helper_function').index_range
+def index_range(page: int, page_size: int) -> tuple:
+    """
+    Return a tuple of size two containing a start index and
+    an end index for the given pagination parameters.
+    """
+    start_index = (page - 1) * page_size
+    end_index = page * page_size
+    return (start_index, end_index)
 
 
 class Server:
@@ -14,8 +22,7 @@ class Server:
     """
     DATA_FILE = "Popular_Baby_Names.csv"
 
-    def __init__(self) -> None:
-        """Initialize the server instance."""
+    def __init__(self):
         self.__dataset = None
 
     def dataset(self) -> List[List]:
@@ -31,16 +38,15 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
-        Return the appropriate page of the dataset.
+        Returns a paginated slice of the dataset based on page and page_size.
         """
-        assert isinstance(page, int) and page > 0
-        assert isinstance(page_size, int) and page_size > 0
+        assert type(page) is int and page > 0
+        assert type(page_size) is int and page_size > 0
 
+        dataset = self.dataset()
         start, end = index_range(page, page_size)
-        data = self.dataset()
 
-        if start >= len(data):
+        if start >= len(dataset):
             return []
 
-        return data[start:end]
-    
+        return dataset[start:end]
