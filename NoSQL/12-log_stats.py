@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """
-Python script that provides some stats about Nginx logs stored in MongoDB.
+Provides some stats about Nginx logs stored in MongoDB.
 """
 from pymongo import MongoClient
 
 
-if __name__ == "__main__":
+def log_stats() -> None:
+    """
+    Free function that displays statistics about Nginx logs
+    stored in the 'logs' database, 'nginx' collection.
+    """
     client = MongoClient('mongodb://127.0.0.1:27017')
     nginx_collection = client.logs.nginx
 
@@ -22,3 +26,7 @@ if __name__ == "__main__":
         {"method": "GET", "path": "/status"}
     )
     print(f"{status_checks} status check")
+
+
+if __name__ == "__main__":
+    log_stats()
