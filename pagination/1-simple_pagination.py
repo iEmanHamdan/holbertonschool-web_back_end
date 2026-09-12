@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 """
-Module for Server class and pagination helper function.
+Simple pagination module.
 """
 import csv
 import math
-from typing import List
+from typing import List, Tuple
 
 
-def index_range(page: int, page_size: int) -> tuple:
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
     """
-    Return a tuple of size two containing a start index and
-    an end index for the given pagination parameters.
+    Calculate start and end indexes for pagination parameters.
     """
-    start_index = (page - 1) * page_size
-    end_index = page * page_size
-    return (start_index, end_index)
+    return ((page - 1) * page_size, page * page_size)
 
 
 class Server:
@@ -38,16 +35,16 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
-        Returns a paginated slice of the dataset based on page and page_size.
+        Get a specific page of data from dataset.
         """
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
-        dataset = self.dataset()
         start, end = index_range(page, page_size)
+        data = self.dataset()
 
-        if start >= len(dataset):
+        if start >= len(data):
             return []
 
-        return dataset[start:end]
+        return data[start:end]
     
